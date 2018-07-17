@@ -17,3 +17,7 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+
+    # Lexik Bundle setting
+    allowed_ips_during_maintenance:
+        - 127.0.0.1
