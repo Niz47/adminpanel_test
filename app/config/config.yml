@@ -94,3 +94,48 @@ lexik_maintenance:
     response:
         code: 503
         status: "Service Temporarily Unavailable"
+
+#start - sonata admin setting
+sonata_block:                                           
+    blocks:                                         
+        # Enable the SonataAdminBundle block                                            
+        sonata.admin.block.admin_list:                                          
+            contexts:   [admin]                                         
+        sonata.block.service.server_run_status:                                         
+                   
+sonata_admin:                                           
+    security:                                           
+        handler: sonata.admin.security.handler.role                                         
+        information:                                            
+            GUEST:    [VIEW, LIST]                                          
+            STAFF:    [EDIT, LIST, CREATE]                                          
+            EDITOR:   [OPERATOR, EXPORT]                                            
+            ADMIN:    [MASTER]                                          
+        # permissions not related to an object instance and also to be available when objects do not exist                                          
+        # the DELETE admin permission means the user is allowed to batch delete objects                                         
+        admin_permissions: [CREATE, LIST, DELETE, UNDELETE, EXPORT, OPERATOR, MASTER]                                           
+        # permission related to the objects                                         
+        object_permissions: [VIEW, EDIT, DELETE, UNDELETE, OPERATOR, MASTER, OWNER]                                         
+                                            
+    title: My Admin                                         
+    title_logo: bundles/app/images/logo.png                                         
+    options:                                            
+        use_icheck: false                                           
+    templates:                                          
+        user_block: AppBundle:Admin:user_block.html.twig                                            
+                                            
+    dashboard:                                          
+        blocks:                                         
+            # display a dashboard block                                         
+            - { position: left, type: sonata.admin.block.admin_list }                                           
+            - { position: right, type: sonata.block.service.balance_check, roles:[ROLE_VIEW_BALANCE,ROLE_ADMIN]}                                            
+sonata_core:                                            
+    flashmessage:                                           
+        success:                                            
+            types:                                          
+                - { type: server_run_status_change_success, domain: AppBundle }                                         
+        error:                                          
+            css_class: danger # optionally, a CSS class can be defined                                          
+            types:                                          
+                - { type: server_run_status_change_error, domain: AppBundle }                                           
+#end - sonata admin setting
